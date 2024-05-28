@@ -70,7 +70,7 @@
                         <h3><?php echo $tag['label'] ?></h3>
                         <p>id : <?php echo $tag['id']?></p>
                         <nav>
-                            <a href="tags.php?id=<?php echo $tagId;?>">Messages</a>
+                            <a href="tags.php?tag_id=1">Messages</a>
                         </nav>
                     </article>
                 <?php } ?>
