@@ -51,7 +51,9 @@
                 /**
                  * Etape 2: se connecter à la base de donnée
                  */
-                $mysqli = new mysqli("localhost", "root", "", "socialnetwork");
+                
+                include "./functions.php";
+                $mysqli = connectToDB();
 
                 /**
                  * Etape 3: récupérer le nom de l'utilisateur
@@ -84,16 +86,16 @@
                 <article class='parameters'>
                     <h3>Mes paramètres</h3>
                     <dl>
-                        <dt>Pseudo</dt>
-                        <dd>Félicie</dd>
-                        <dt>Email</dt>
-                        <dd>felicie@test.org</dd>
+                        <dt> Pseudo </dt>
+                        <dd><?php echo $user['id']?></dd>
+                        <dt>Email </dt>
+                        <dd><?php echo $user['email']?></dd>
                         <dt>Nombre de message</dt>
-                        <dd>42</dd>
+                        <dd><?php echo $user['totalpost']?></dd>
                         <dt>Nombre de "J'aime" donnés </dt>
-                        <dd>12</dd>
+                        <dd><?php echo $user['totalgiven']?></dd>
                         <dt>Nombre de "J'aime" reçus</dt>
-                        <dd>53</dd>
+                        <dd><?php echo $user['totalrecieved']?></dd>
                     </dl>
 
                 </article>
