@@ -31,8 +31,9 @@
          * Etape 1: Ouvrir une connexion avec la base de donnée.
          */
         // on va en avoir besoin pour la suite
-        $mysqli = new mysqli("localhost", "root", "", "socialnetwork");
-        //verification
+        include "./functions.php";
+            $mysqli = connectToDB();
+
         if ($mysqli->connect_errno)
         {
             echo("Échec de la connexion : " . $mysqli->connect_error);
@@ -48,6 +49,8 @@
                  */
                 $laQuestionEnSql = "SELECT * FROM `tags` LIMIT 50";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
+                //echo "<pre>" . print_r($lesInformations, 1) . "</pre>";
+
                 // Vérification
                 if ( ! $lesInformations)
                 {
@@ -61,13 +64,13 @@
                  */
                 while ($tag = $lesInformations->fetch_assoc())
                 {
-                    echo "<pre>" . print_r($tag, 1) . "</pre>";
+                    //echo "<pre>" . print_r($tag, 1) . "</pre>";
                     ?>
                     <article>
-                        <h3>#chaussette</h3>
-                        <p>id:321</p>
+                        <h3><?php echo $tag['label'] ?></h3>
+                        <p>id : <?php echo $tag['id']?></p>
                         <nav>
-                            <a href="tags.php?tag_id=321">Messages</a>
+                            <a href="tags.php?tag_id=1">Messages</a>
                         </nav>
                     </article>
                 <?php } ?>
@@ -92,13 +95,13 @@
                  * Etape 5 : @todo : Afficher les utilisatrices en s'inspirant de ce qui a été fait dans news.php
                  * Attention à en pas oublier de modifier dans le lien les "user_id=123" avec l'id de l'utilisatrice
                  */
-                while ($tag = $lesInformations->fetch_assoc())
+                while ($user = $lesInformations->fetch_assoc())
                 {
-                    echo "<pre>" . print_r($tag, 1) . "</pre>";
+                    //echo "<pre>" . print_r($user, 1) . "</pre>";
                     ?>
                     <article>
-                        <h3>Alexandra</h3>
-                        <p>id:123</p>
+                        <h3><?php echo $user['alias'] ?></h3>
+                        <p>id :<?php echo $user['id']?></p>
                         <nav>
                             <a href="wall.php?user_id=123">Mur</a>
                             | <a href="feed.php?user_id=123">Flux</a>
