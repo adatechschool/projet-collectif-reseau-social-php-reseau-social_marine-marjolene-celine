@@ -31,8 +31,9 @@
          * Etape 1: Ouvrir une connexion avec la base de donnée.
          */
         // on va en avoir besoin pour la suite
-        $mysqli = new mysqli("localhost", "root", "", "socialnetwork");
-        //verification
+        include "./functions.php";
+            $mysqli = connectToDB();
+
         if ($mysqli->connect_errno)
         {
             echo("Échec de la connexion : " . $mysqli->connect_error);
@@ -48,6 +49,8 @@
                  */
                 $laQuestionEnSql = "SELECT * FROM `tags` LIMIT 50";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
+                //echo "<pre>" . print_r($lesInformations, 1) . "</pre>";
+
                 // Vérification
                 if ( ! $lesInformations)
                 {
@@ -64,10 +67,10 @@
                     echo "<pre>" . print_r($tag, 1) . "</pre>";
                     ?>
                     <article>
-                        <h3>#chaussette</h3>
-                        <p>id:321</p>
+                        <h3><?php echo $tag['label'] ?></h3>
+                        <p>id : <?php echo $tag['id']?></p>
                         <nav>
-                            <a href="tags.php?tag_id=321">Messages</a>
+                            <a href="tags.php?id=<?php echo $tagId;?>">Messages</a>
                         </nav>
                     </article>
                 <?php } ?>
