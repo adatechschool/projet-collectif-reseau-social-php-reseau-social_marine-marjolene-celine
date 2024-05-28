@@ -118,36 +118,8 @@
                 // on vous met le pied à l'étrier avec created
                 // 
                 // avec le ? > ci-dessous on sort du mode php et on écrit du html comme on veut... mais en restant dans la boucle
-            ?>
-                <article>
-                    <h3>
-                        <time>
-                            <?php
-                            setlocale(LC_TIME, "fr_FR.UTF-8", 'fra');
-                            echo strftime("%d %B %Y à %Hh%M", strtotime($post['created']));
-                            ?>
-                        </time>
-                    </h3>
-                    <address>par <?php echo $post['author_name'] ?></address>
-                    <div>
-                        <p><?php echo $post['content'] ?></p>
-                    </div>
-                    <footer>
-                        <small>♥ <?php echo $post['like_number'] ?> </small>
-                        <?php
-                        $tags_array = explode(",", $post['taglist']);
-                        foreach ($tags_array as $tag) {
-                        ?>
-                            <a><?php echo "#" . $tag . "," ?></a>
-
-                        <?php
-                        }
-                        ?>
-                    </footer>
-                </article>
-            <?php
-                // avec le <?php ci-dessus on retourne en mode php 
-            } // cette accolade ferme et termine la boucle while ouverte avant.
+            displayPost($post);
+            };
             ?>
 
         </main>

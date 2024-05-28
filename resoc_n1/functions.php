@@ -11,8 +11,18 @@ function displayPost($post)
         <h3>
             <time datetime=<?php $post["created"] ?>>
                 <?php
-                setlocale(LC_TIME, "fr_FR.UTF-8", 'fra');
-                echo strftime("%d %B %Y à %Hh%M", strtotime($post['created']));
+                /* setlocale(LC_TIME, "fr_FR.UTF-8", 'fra');
+                    echo strftime("%d %B %Y à %Hh%M", strtotime($post['created'])); */
+                //echo $post["created"];
+                $fmt = new IntlDateFormatter(
+                    'fr_FR',
+                    IntlDateFormatter::FULL,
+                    IntlDateFormatter::SHORT,
+                    'Europe/Paris',
+                    IntlDateFormatter::GREGORIAN,
+                    "dd MMMM yyyy 'à' HH'h'mm"
+                );
+                echo $fmt->format(strtotime($post["created"]));
                 ?>
             </time>
         </h3>
