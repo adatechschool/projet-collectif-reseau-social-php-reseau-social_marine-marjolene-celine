@@ -4,24 +4,25 @@ function connectToDB()
     return new mysqli("localhost", "root", "", "socialnetwork");
 }
 
-function getFrenchMonth($month){
+function getFrenchMonth($month)
+{
 
-$arrayMonths = array(
-    "January"=> "janvier", 
-    "February"=> "février",
-    "March"=> "mars",
-    "April"=> "avril",
-    "May"=> "mai",
-    "June"=> "juin",
-    "July"=> "juillet",
-    "August"=> "août",
-    "September"=> "septembre",
-    "October"=> "octobre",
-    "November"=> "novembre",
-    "December"=> "décembre"
-);
+    $arrayMonths = array(
+        "January" => "janvier",
+        "February" => "février",
+        "March" => "mars",
+        "April" => "avril",
+        "May" => "mai",
+        "June" => "juin",
+        "July" => "juillet",
+        "August" => "août",
+        "September" => "septembre",
+        "October" => "octobre",
+        "November" => "novembre",
+        "December" => "décembre"
+    );
 
-return $arrayMonths[$month];
+    return $arrayMonths[$month];
 }
 
 
@@ -32,12 +33,11 @@ function displayPost($post)
         <h3>
             <time datetime=<?php $post["created"] ?>>
                 <?php
-$timeStamp=strtotime($post['created']); //convertit la date récupérée en timestamp Unix 
-$englishMonth=date("F",$timeStamp); // récupère le mois en anglais
-$frenchMonth=getFrenchMonth($englishMonth);
-$format="d ". $frenchMonth." Y à H\hi";
-$completeDate=date("d ",$timeStamp). $frenchMonth. date(" Y à H\hi",$timeStamp);
-echo $completeDate;
+                $timeStamp = strtotime($post['created']); //convertit la date récupérée en timestamp Unix 
+                $englishMonth = date("F", $timeStamp); // récupère le mois en anglais
+                $frenchMonth = getFrenchMonth($englishMonth);
+                $completeDate = date("d ", $timeStamp) . $frenchMonth . date(" Y à H\hi", $timeStamp);
+                echo $completeDate;
 
                 ?>
             </time>
