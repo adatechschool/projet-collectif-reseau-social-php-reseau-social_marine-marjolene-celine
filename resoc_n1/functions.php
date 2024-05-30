@@ -81,8 +81,11 @@ function displayUserFollow($user)
 ?>
     <article>
         <img src="user.jpg" alt="blason" />
-        <h3><?php echo $user["alias"] ?></h3>
-        <p>id:<?php echo $user["id"] ?></p>
+        <a href=<?php echo "/resoc_n1/tags.php?tag_id=" . $user["id"] ?>>
+            <h3><?php echo $user["alias"] ?></h3>
+        </a>
+
+            <p>id:<?php echo $user["id"] ?></p>
     </article>
 <?php
 }
