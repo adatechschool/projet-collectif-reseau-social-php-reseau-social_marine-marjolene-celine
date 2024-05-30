@@ -1,4 +1,5 @@
 <?php
+
 function connectToDB()
 {
     return new mysqli("localhost", "root", "", "socialnetwork");
@@ -28,6 +29,9 @@ function getFrenchMonth($month)
 
 function displayPost($post)
 {
+    /* if (preg_match_all('/#\w+/u', $post['content'], $matches)) {
+        print_r($matches);
+    } */
 ?>
     <article>
         <h3>
@@ -42,7 +46,10 @@ function displayPost($post)
                 ?>
             </time>
         </h3>
-        <address>par <?php echo $post["author_name"] ?></address>
+        <address>
+            par
+            <a href=<?php echo "/resoc_n1/wall.php?user_id=" . $post["author_id"] ?>><?php echo $post["author_name"] ?></a>
+        </address>
         <div>
             <p>
                 <?php
@@ -54,9 +61,13 @@ function displayPost($post)
             <small>♥ <?php echo $post['like_number'] ?> </small>
             <?php
             $tags_array = explode(",", $post['taglist']);
-            foreach ($tags_array as $tag) {
+            $tagids_array = explode(",", $post['tagid_list']);
+            $post_tags = array_combine($tags_array, $tagids_array);
+            //print_r($post_tags);
+            foreach ($post_tags as $tag => $tagid) {
             ?>
-                <a><?php echo "#" . $tag . "," ?></a>
+                <a href=<?php echo "/resoc_n1/tags.php?tag_id=" . $tagid ?>><?php echo "#" . $tag . "," ?>
+                </a>
 
             <?php
             }
