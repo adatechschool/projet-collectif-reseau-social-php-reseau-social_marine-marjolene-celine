@@ -26,6 +26,14 @@ function getFrenchMonth($month)
     return $arrayMonths[$month];
 }
 
+function displayContent($content) {
+    $tag_pattern = '/#\w+/u';
+    $new_content = preg_replace($tag_pattern,
+    '<a href="/resoc_n1/tags.php?tag_id='
+    ,
+    $content);
+    echo $new_content;
+}
 
 function displayPost($post)
 {
@@ -53,7 +61,7 @@ function displayPost($post)
         <div>
             <p>
                 <?php
-                echo $post["content"];
+                    displayContent($post["content"]);
                 ?>
             </p>
         </div>
@@ -81,7 +89,7 @@ function displayUserFollow($user)
 ?>
     <article>
         <img src="user.jpg" alt="blason" />
-        <a href=<?php echo "/resoc_n1/tags.php?tag_id=" . $user["id"] ?>>
+        <a href=<?php echo "/resoc_n1/wall.php?user_id=" . $user["id"] ?>>
             <h3><?php echo $user["alias"] ?></h3>
         </a>
 
