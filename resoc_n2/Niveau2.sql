@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema socialnetwork
+-- Schema socialnetwork_tests
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema socialnetwork
+-- Schema socialnetwork_tests
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `socialnetwork` ;
-USE `socialnetwork` ;
+CREATE SCHEMA IF NOT EXISTS `socialnetwork_tests` ;
+USE `socialnetwork_tests` ;
 
 -- -----------------------------------------------------
--- Table `socialnetwork`.`users`
+-- Table `socialnetwork_tests`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `socialnetwork`.`users` (
+CREATE TABLE IF NOT EXISTS `socialnetwork_tests`.`users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
@@ -32,9 +32,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `socialnetwork`.`posts`
+-- Table `socialnetwork_tests`.`posts`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `socialnetwork`.`posts` (
+CREATE TABLE IF NOT EXISTS `socialnetwork_tests`.`posts` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `content` TEXT NOT NULL,
@@ -45,21 +45,21 @@ CREATE TABLE IF NOT EXISTS `socialnetwork`.`posts` (
   INDEX `fk_posts_posts1_idx` (`parent_id` ASC),
   CONSTRAINT `fk_posts_users`
     FOREIGN KEY (`user_id`)
-    REFERENCES `socialnetwork`.`users` (`id`)
+    REFERENCES `socialnetwork_tests`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_posts_posts1`
     FOREIGN KEY (`parent_id`)
-    REFERENCES `socialnetwork`.`posts` (`id`)
+    REFERENCES `socialnetwork_tests`.`posts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `socialnetwork`.`tags`
+-- Table `socialnetwork_tests`.`tags`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `socialnetwork`.`tags` (
+CREATE TABLE IF NOT EXISTS `socialnetwork_tests`.`tags` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `label` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
@@ -68,9 +68,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `socialnetwork`.`posts_tags`
+-- Table `socialnetwork_tests`.`posts_tags`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `socialnetwork`.`posts_tags` (
+CREATE TABLE IF NOT EXISTS `socialnetwork_tests`.`posts_tags` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `post_id` INT UNSIGNED NOT NULL,
   `tag_id` INT UNSIGNED NOT NULL,
@@ -79,21 +79,21 @@ CREATE TABLE IF NOT EXISTS `socialnetwork`.`posts_tags` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_posts_has_tags_posts1`
     FOREIGN KEY (`post_id`)
-    REFERENCES `socialnetwork`.`posts` (`id`)
+    REFERENCES `socialnetwork_tests`.`posts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_posts_has_tags_tags1`
     FOREIGN KEY (`tag_id`)
-    REFERENCES `socialnetwork`.`tags` (`id`)
+    REFERENCES `socialnetwork_tests`.`tags` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `socialnetwork`.`followers`
+-- Table `socialnetwork_tests`.`followers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `socialnetwork`.`followers` (
+CREATE TABLE IF NOT EXISTS `socialnetwork_tests`.`followers` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `followed_user_id` INT UNSIGNED NOT NULL,
   `following_user_id` INT UNSIGNED NOT NULL,
@@ -102,21 +102,21 @@ CREATE TABLE IF NOT EXISTS `socialnetwork`.`followers` (
   INDEX `fk_users_has_users_users1_idx` (`followed_user_id` ASC),
   CONSTRAINT `fk_users_has_users_users1`
     FOREIGN KEY (`followed_user_id`)
-    REFERENCES `socialnetwork`.`users` (`id`)
+    REFERENCES `socialnetwork_tests`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_has_users_users2`
     FOREIGN KEY (`following_user_id`)
-    REFERENCES `socialnetwork`.`users` (`id`)
+    REFERENCES `socialnetwork_tests`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `socialnetwork`.`likes`
+-- Table `socialnetwork_tests`.`likes`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `socialnetwork`.`likes` (
+CREATE TABLE IF NOT EXISTS `socialnetwork_tests`.`likes` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `post_id` INT UNSIGNED NOT NULL,
@@ -125,12 +125,12 @@ CREATE TABLE IF NOT EXISTS `socialnetwork`.`likes` (
   INDEX `fk_users_has_posts_users1_idx` (`user_id` ASC),
   CONSTRAINT `fk_users_has_posts_users1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `socialnetwork`.`users` (`id`)
+    REFERENCES `socialnetwork_tests`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_has_posts_posts1`
     FOREIGN KEY (`post_id`)
-    REFERENCES `socialnetwork`.`posts` (`id`)
+    REFERENCES `socialnetwork_tests`.`posts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
