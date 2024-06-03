@@ -54,7 +54,6 @@
                     $new_alias = $_POST['pseudo'];
                     $new_passwd = $_POST['motpasse'];
 
-
                     //Etape 3 : Ouvrir une connexion avec la base de donnée.
                     $mysqli = new mysqli("localhost", "root", "", "socialnetwork_tests");
                     //Etape 4 : Petite sécurité
