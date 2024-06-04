@@ -1,6 +1,6 @@
 <?php
 session_start()
-?>;
+?>
 <!doctype html>
 <html lang="fr">
 
@@ -70,15 +70,40 @@ session_start()
                         <!-- Création du bouton gestion abonnement -->
                         <br>
                         <br>
-                <form action="wall.php" method="post">
+                <form method="post">
 
                     <input type='hidden' name='follow' value="follow">
                     <button type="submit"> Abonne toi </button>
-                <?php
+                </form>
+            <?php
                     }
-                ?>
 
-                </p>
+                    $enCoursDeTraitement = isset($_POST['follow']);
+                    if ($enCoursDeTraitement) {
+                        $following_id = $_SESSION['connected_id'];
+                        $followed_id = $userId;
+
+                        $mysqli = new mysqli("localhost", "root", "", "socialnetwork");
+
+                        $following_id = $mysqli->real_escape_string($following_id);
+                        $followed_id = $mysqli->real_escape_string($followed_id);
+
+                        $lInstructionSql = "INSERT INTO followers (id, followed_user_id, following_user_id) "
+                            . "VALUES (NULL, "
+                            . "'" . $followed_id . "', "
+                            . "'" . $following_id . "' "
+                            . ");";
+
+                        $ok = $mysqli->query($lInstructionSql);
+                        if (!$ok) {
+                            echo "l'abonnement a échoué " . $mysqli->error;
+                        } else {
+                            echo "Vous suivez à présent " . $user['alias'];
+                        }
+                    }
+            ?>
+
+            </p>
 
             </section>
         </aside>
