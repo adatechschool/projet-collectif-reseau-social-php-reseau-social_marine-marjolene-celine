@@ -1,3 +1,8 @@
+<?php
+session_start();
+$connected_user = $_SESSION["connected_id"];
+?>
+
 <!doctype html>
 <html lang="fr">
 
@@ -10,19 +15,19 @@
 
 <body>
     <header>
-        <a href='admin.php'><img src="resoc.jpg" alt="Logo de notre réseau social" /></a>
+        <a href='/resoc_n1/admin.php'><img src="resoc.jpg" alt="Logo de notre réseau social" /></a>
         <nav id="menu">
-            <a href="news.php">Actualités</a>
-            <a href="wall.php?user_id=5">Mur</a>
-            <a href="feed.php?user_id=5">Flux</a>
-            <a href="tags.php?tag_id=1">Mots-clés</a>
+            <a href="/resoc_n1/news.php">Actualités</a>
+            <a href=<?php echo "/resoc_n1/wall.php?user_id=" . $connected_user ?>>Mur</a>
+            <a href=<?php echo "/resoc_n1/feed.php?user_id=" . $connected_user ?>>Flux</a>
+            <a href="/resoc_n1/tags.php?tag_id=1">Mots-clés</a>
         </nav>
         <nav id="user">
             <a href="#">▾ Profil</a>
             <ul>
-                <li><a href="settings.php?user_id=5">Paramètres</a></li>
-                <li><a href="followers.php?user_id=5">Mes suiveurs</a></li>
-                <li><a href="subscriptions.php?user_id=5">Mes abonnements</a></li>
+                <li><a href=<?php echo "/resoc_n1/settings.php?user_id=" . $connected_user ?>>Paramètres</a></li>
+                <li><a href=<?php echo "/resoc_n1/followers.php?user_id=" . $connected_user ?>>Mes suiveurs</a></li>
+                <li><a href=<?php echo "/resoc_n1/subscriptions.php?user_id=" . $connected_user ?>>Mes abonnements</a></li>
             </ul>
         </nav>
     </header>
@@ -85,9 +90,10 @@
             $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    posts.id AS post_id,
                     users.alias as author_name,
                     users.id as author_id,
-                    count(likes.id) as like_number,  
+                    count(DISTINCT likes.id) as like_number,  
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist,
                     GROUP_CONCAT(DISTINCT tags.id ORDER BY tags.label) AS tagid_list  
                     FROM posts
@@ -120,7 +126,7 @@
                 // on vous met le pied à l'étrier avec created
                 // 
                 // avec le ? > ci-dessous on sort du mode php et on écrit du html comme on veut... mais en restant dans la boucle
-            displayPost($post);
+                displayPost($post);
             };
             ?>
 
