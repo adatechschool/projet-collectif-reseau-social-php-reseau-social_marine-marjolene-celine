@@ -1,6 +1,5 @@
 <?php
-session_start();
-$connected_user = $_SESSION["connected_id"];
+include "./functions.php";
 ?>
 
 <!doctype html>
@@ -14,23 +13,10 @@ $connected_user = $_SESSION["connected_id"];
 </head>
 
 <body>
-    <header>
-        <a href='/resoc_n1/admin.php'><img src="resoc.jpg" alt="Logo de notre réseau social" /></a>
-        <nav id="menu">
-            <a href="/resoc_n1/news.php">Actualités</a>
-            <a href=<?php echo "/resoc_n1/wall.php?user_id=" . $connected_user ?>>Mur</a>
-            <a href=<?php echo "/resoc_n1/feed.php?user_id=" . $connected_user ?>>Flux</a>
-            <a href="/resoc_n1/tags.php?tag_id=1">Mots-clés</a>
-        </nav>
-        <nav id="user">
-            <a href="#">▾ Profil</a>
-            <ul>
-                <li><a href=<?php echo "/resoc_n1/settings.php?user_id=" . $connected_user ?>>Paramètres</a></li>
-                <li><a href=<?php echo "/resoc_n1/followers.php?user_id=" . $connected_user ?>>Mes suiveurs</a></li>
-                <li><a href=<?php echo "/resoc_n1/subscriptions.php?user_id=" . $connected_user ?>>Mes abonnements</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php
+    display_header();
+    ?>
+
     <div id="wrapper">
         <aside>
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
@@ -72,7 +58,6 @@ $connected_user = $_SESSION["connected_id"];
                   // plus généralement : https://www.php.net/manual/fr/mysqli.query.php
                  */
 
-            include "./functions.php";
             // Etape 1: Ouvrir une connexion avec la base de donnée.
             $mysqli = connectToDB();
             //verification
