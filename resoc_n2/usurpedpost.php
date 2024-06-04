@@ -30,7 +30,7 @@ include '../resoc_n1/functions.php';
                 /**
                  * BD
                  */
-                $mysqli = new mysqli("localhost", "root", "", "socialnetwork_tests");
+                $mysqli = new mysqli("localhost", "root", "", "socialnetwork");
                 /**
                  * Récupération de la liste des auteurs
                  */

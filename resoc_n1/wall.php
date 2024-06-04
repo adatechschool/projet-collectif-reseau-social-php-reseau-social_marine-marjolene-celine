@@ -46,12 +46,49 @@ include "./functions.php";
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
             <section>
                 <h3>Présentation</h3>
-                <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
+                <p>Sur cette page vous trouverez tous les message de l'utilisatrice : <?php echo $user['alias'] ?>
+                    (n° <?php echo $userId ?>)
                     <?php
-                    if ($user) {
-                        echo $user['alias'] ?> (n° <?php echo $userId ?>)
-                    <?php } ?>
-                </p>
+                    if ($_SESSION['connected_id'] && $_SESSION['connected_id'] != $userId) {
+                    ?>
+                        <!-- Création du bouton gestion abonnement -->
+                        <br>
+                        <br>
+                <form method="post">
+
+                    <input type='hidden' name='follow' value="follow">
+                    <button type="submit"> Abonne toi </button>
+                </form>
+            <?php
+                    }
+
+                    $enCoursDeTraitement = isset($_POST['follow']);
+                    if ($enCoursDeTraitement) {
+                        $following_id = $_SESSION['connected_id'];
+                        $followed_id = $userId;
+
+                        $mysqli = new mysqli("localhost", "root", "", "socialnetwork");
+
+                        $following_id = $mysqli->real_escape_string($following_id);
+                        $followed_id = $mysqli->real_escape_string($followed_id);
+
+                        $lInstructionSql = "INSERT INTO followers (id, followed_user_id, following_user_id) "
+                            . "VALUES (NULL, "
+                            . "'" . $followed_id . "', "
+                            . "'" . $following_id . "' "
+                            . ");";
+
+                        $ok = $mysqli->query($lInstructionSql);
+                        if (!$ok) {
+                            echo "l'abonnement a échoué " . $mysqli->error;
+                        } else {
+                            echo "Vous suivez à présent " . $user['alias'];
+                        }
+                    }
+            ?>
+
+            </p>
+
             </section>
         </aside>
         <main>
@@ -88,7 +125,9 @@ include "./functions.php";
             while ($post = $lesInformations->fetch_assoc()) {
                 displayPost($post);
             }
+
             ?>
+
         </main>
     </div>
 </body>

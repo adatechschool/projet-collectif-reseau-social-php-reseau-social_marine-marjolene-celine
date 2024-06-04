@@ -39,19 +39,19 @@ function display_header()
     $connected_user = $_SESSION["connected_id"];
 ?>
     <header>
-        <a href='/resoc_n1/admin.php'><img src="resoc.jpg" alt="Logo de notre réseau social" /></a>
+        <a href='../resoc_n1/admin.php'><img src="resoc.jpg" alt="Logo de notre réseau social" /></a>
         <nav id="menu">
-            <a href="/resoc_n1/news.php">Actualités</a>
-            <a href=<?php echo "/resoc_n1/wall.php?user_id=" . $connected_user ?>>Mur</a>
-            <a href=<?php echo "/resoc_n1/feed.php?user_id=" . $connected_user ?>>Flux</a>
-            <a href="/resoc_n1/tags.php?tag_id=1">Mots-clés</a>
+            <a href="../resoc_n1/news.php">Actualités</a>
+            <a href=<?php echo "../resoc_n1/wall.php?user_id=" . $connected_user ?>>Mur</a>
+            <a href=<?php echo "../resoc_n1/feed.php?user_id=" . $connected_user ?>>Flux</a>
+            <a href="../resoc_n1/tags.php?tag_id=1">Mots-clés</a>
         </nav>
         <nav id="user">
             <a href="#">▾ Profil</a>
             <ul>
-                <li><a href=<?php echo "/resoc_n1/settings.php?user_id=" . $connected_user ?>>Paramètres</a></li>
-                <li><a href=<?php echo "/resoc_n1/followers.php?user_id=" . $connected_user ?>>Mes suiveurs</a></li>
-                <li><a href=<?php echo "/resoc_n1/subscriptions.php?user_id=" . $connected_user ?>>Mes abonnements</a></li>
+                <li><a href=<?php echo "../resoc_n1/settings.php?user_id=" . $connected_user ?>>Paramètres</a></li>
+                <li><a href=<?php echo "../resoc_n1/followers.php?user_id=" . $connected_user ?>>Mes suiveurs</a></li>
+                <li><a href=<?php echo "../resoc_n1/subscriptions.php?user_id=" . $connected_user ?>>Mes abonnements</a></li>
             </ul>
         </nav>
     </header>
@@ -123,7 +123,7 @@ function displayPost($post)
         </h3>
         <address>
             par
-            <a href=<?php echo "/resoc_n1/wall.php?user_id=" . $post["author_id"] ?>><?php echo $post["author_name"] ?></a>
+            <a href=<?php echo "../resoc_n1/wall.php?user_id=" . $post["author_id"] ?>><?php echo $post["author_name"] ?></a>
         </address>
         <div>
             <p>
@@ -148,7 +148,7 @@ function displayPost($post)
             //print_r($post_tags);
             foreach ($post_tags as $tag => $tagid) {
             ?>
-                <a href=<?php echo "/resoc_n1/tags.php?tag_id=" . $tagid ?>><?php echo "#" . $tag . "," ?>
+                <a href=<?php echo "../resoc_n1/tags.php?tag_id=" . $tagid ?>><?php echo "#" . $tag . "," ?>
                 </a>
 
             <?php
@@ -163,7 +163,7 @@ function displayUserFollow($user)
 ?>
     <article>
         <img src="user.jpg" alt="blason" />
-        <a href=<?php echo "/resoc_n1/wall.php?user_id=" . $user["id"] ?>>
+        <a href=<?php echo "../resoc_n1/wall.php?user_id=" . $user["id"] ?>>
             <h3><?php echo $user["alias"] ?></h3>
         </a>
 
