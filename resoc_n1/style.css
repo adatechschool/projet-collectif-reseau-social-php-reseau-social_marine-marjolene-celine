@@ -154,3 +154,9 @@ body>header #user:hover ul{
 pre{
     color:#aaa;
 }
+
+.like {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

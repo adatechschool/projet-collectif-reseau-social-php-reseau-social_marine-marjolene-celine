@@ -1,3 +1,7 @@
+<?php
+include "./functions.php";
+?>
+
 <!doctype html>
 <html lang="fr">
 
@@ -9,23 +13,10 @@
 </head>
 
 <body>
-    <header>
-        <a href='admin.php'><img src="resoc.jpg" alt="Logo de notre réseau social" /></a>
-        <nav id="menu">
-            <a href="news.php">Actualités</a>
-            <a href="wall.php?user_id=5">Mur</a>
-            <a href="feed.php?user_id=5">Flux</a>
-            <a href="tags.php?tag_id=1">Mots-clés</a>
-        </nav>
-        <nav id="user">
-            <a href="#">▾ Profil</a>
-            <ul>
-                <li><a href="settings.php?user_id=5">Paramètres</a></li>
-                <li><a href="followers.php?user_id=5">Mes suiveurs</a></li>
-                <li><a href="subscriptions.php?user_id=5">Mes abonnements</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php
+    display_header();
+    ?>
+
     <div id="wrapper">
         <aside>
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
@@ -67,7 +58,6 @@
                   // plus généralement : https://www.php.net/manual/fr/mysqli.query.php
                  */
 
-            include "./functions.php";
             // Etape 1: Ouvrir une connexion avec la base de donnée.
             $mysqli = connectToDB();
             //verification
@@ -85,9 +75,10 @@
             $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    posts.id AS post_id,
                     users.alias as author_name,
                     users.id as author_id,
-                    count(likes.id) as like_number,  
+                    count(DISTINCT likes.id) as like_number,  
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist,
                     GROUP_CONCAT(DISTINCT tags.id ORDER BY tags.label) AS tagid_list  
                     FROM posts
@@ -120,7 +111,7 @@
                 // on vous met le pied à l'étrier avec created
                 // 
                 // avec le ? > ci-dessous on sort du mode php et on écrit du html comme on veut... mais en restant dans la boucle
-            displayPost($post);
+                displayPost($post);
             };
             ?>
 

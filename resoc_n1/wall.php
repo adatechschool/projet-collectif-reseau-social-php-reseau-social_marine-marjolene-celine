@@ -1,6 +1,7 @@
 <?php
-session_start()
+include "./functions.php";
 ?>
+
 <!doctype html>
 <html lang="fr">
 
@@ -12,24 +13,9 @@ session_start()
 </head>
 
 <body>
-    <header>
-        <img src="resoc.jpg" alt="Logo de notre réseau social" />
-        <nav id="menu">
-            <a href="news.php">Actualités</a>
-            <a href="wall.php?user_id=8">Mur</a>
-            <a href="feed.php?user_id=8">Flux</a>
-            <a href="tags.php?tag_id=1">Mots-clés</a>
-        </nav>
-        <nav id="user">
-            <a href="#">Profil</a>
-            <ul>
-                <li><a href="settings.php?user_id=8">Paramètres</a></li>
-                <li><a href="followers.php?user_id=8">Mes suiveurs</a></li>
-                <li><a href="subscriptions.php?user_id=8">Mes abonnements</a></li>
-            </ul>
-
-        </nav>
-    </header>
+    <?php
+    display_header();
+    ?>
     <div id="wrapper">
         <?php
         /**
@@ -45,7 +31,6 @@ session_start()
         /**
          * Etape 2: se connecter à la base de donnée
          */
-        include "./functions.php";
         $mysqli = connectToDB();
         ?>
 
@@ -115,9 +100,10 @@ session_start()
             $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    posts.id AS post_id,
                     users.alias as author_name,
                     users.id as author_id,
-                    COUNT(likes.id) as like_number,
+                    COUNT(DISTINCT likes.id) as like_number,
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist,
                     GROUP_CONCAT(DISTINCT tags.id ORDER BY tags.label) AS tagid_list
                     FROM posts
