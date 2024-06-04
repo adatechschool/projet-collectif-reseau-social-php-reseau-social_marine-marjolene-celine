@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-function check_auth() {
+function check_auth()
+{
     $is_connected = isset($_SESSION['connected_id']);
     if (!$is_connected) {
         header("Location: /resoc_n2/login.php");
@@ -36,7 +37,12 @@ function getFrenchMonth($month)
 
 function display_header()
 {
-    $connected_user = $_SESSION["connected_id"];
+    $is_connected = isset($_SESSION['connected_id']);
+    if ($is_connected) {
+        $connected_user = $_SESSION["connected_id"];
+    } else {
+        $connected_user = NULL;
+    }
 ?>
     <header>
         <a href='../resoc_n1/admin.php'><img src="resoc.jpg" alt="Logo de notre réseau social" /></a>
@@ -47,12 +53,20 @@ function display_header()
             <a href="../resoc_n1/tags.php?tag_id=1">Mots-clés</a>
         </nav>
         <nav id="user">
-            <a href="#">▾ Profil</a>
-            <ul>
-                <li><a href=<?php echo "../resoc_n1/settings.php?user_id=" . $connected_user ?>>Paramètres</a></li>
-                <li><a href=<?php echo "../resoc_n1/followers.php?user_id=" . $connected_user ?>>Mes suiveurs</a></li>
-                <li><a href=<?php echo "../resoc_n1/subscriptions.php?user_id=" . $connected_user ?>>Mes abonnements</a></li>
-            </ul>
+            <?php
+            if ($is_connected) {
+            ?>
+                <a href="#">▾ Profil</a>
+                <ul>
+                    <li><a href=<?php echo "../resoc_n1/settings.php?user_id=" . $connected_user ?>>Paramètres</a></li>
+                    <li><a href=<?php echo "../resoc_n1/followers.php?user_id=" . $connected_user ?>>Mes suiveurs</a></li>
+                    <li><a href=<?php echo "../resoc_n1/subscriptions.php?user_id=" . $connected_user ?>>Mes abonnements</a></li>
+                </ul>
+            <?php
+            } else {
+            ?>
+                <a href="../resoc_n2/login.php">Connexion</a>
+            <?php } ?>
         </nav>
     </header>
 

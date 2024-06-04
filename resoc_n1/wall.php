@@ -27,6 +27,11 @@ include "./functions.php";
          */
         $userId = intval($_GET['user_id']);
 
+        //si pas d'user id et l'utilisateur n'est pas connecté, il est renvoyé sur la page login
+        if (!$userId) {
+            check_auth();
+        }
+
         /**
          * Etape 2: se connecter à la base de donnée
          */
@@ -41,15 +46,20 @@ include "./functions.php";
             $laQuestionEnSql = "SELECT * FROM users WHERE id= '$userId' ";
             $lesInformations = $mysqli->query($laQuestionEnSql);
             $user = $lesInformations->fetch_assoc();
+
             //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
             ?>
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
             <section>
                 <h3>Présentation</h3>
-                <p>Sur cette page vous trouverez tous les message de l'utilisatrice : <?php echo $user['alias'] ?>
-                    (n° <?php echo $userId ?>)
+                <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
+                    <?php if ($user) {
+                        echo $user['alias'] ?>
+                        (n° <?php echo $userId ?>)
                     <?php
-                    if ($_SESSION['connected_id'] && $_SESSION['connected_id'] != $userId) {
+                    }
+
+                    if (isset($_SESSION['connected_id']) && $_SESSION['connected_id'] != $userId) {
                     ?>
                         <!-- Création du bouton gestion abonnement -->
                         <br>
