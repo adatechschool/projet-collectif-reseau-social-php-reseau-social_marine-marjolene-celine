@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+function check_auth() {
+    $is_connected = isset($_SESSION['connected_id']);
+    if (!$is_connected) {
+        header("Location: /resoc_n2/login.php");
+    }
+}
+
 function connectToDB()
 {
     return new mysqli("localhost", "root", "", "socialnetwork");
