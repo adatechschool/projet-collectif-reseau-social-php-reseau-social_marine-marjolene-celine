@@ -47,10 +47,13 @@ include "./functions.php";
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
             <section>
                 <h3>Présentation</h3>
-                <p>Sur cette page vous trouverez tous les message de l'utilisatrice : <?php echo $user['alias'] ?>
-                    (n° <?php echo $userId ?>)
+                <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
+                    <?php if ($user) {
+                        echo $user['alias'] ?>
+                        (n° <?php echo $userId ?>)
                     <?php
-                    if ($_SESSION['connected_id'] && $_SESSION['connected_id'] != $userId) {
+                    }
+                    if (isset($_SESSION['connected_id']) && $_SESSION['connected_id'] != $userId) {
                     ?>
                         <!-- Création du bouton gestion abonnement -->
                         <br>
@@ -87,7 +90,7 @@ include "./functions.php";
                         }
                     }
             ?>
-
+ 
             </p>
 
             </section>
