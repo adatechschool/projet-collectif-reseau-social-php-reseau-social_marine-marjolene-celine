@@ -90,34 +90,79 @@ include "./functions.php";
                         }
                     }
             ?>
- 
+
             </p>
 
             </section>
         </aside>
         <main>
+
+            <!--         Etape 3b : afficher la possibilité pour l'utilisatrice d'écrire un message sur son wall
+ -->
             <?php
-            /**
-             * Etape 3: récupérer tous les messages de l'utilisatrice
-             */
+
+            if (isset($_SESSION['connected_id']) && $_SESSION['connected_id'] = $userId) { ?>
+                <article>
+                    <form action=<?php echo "wall.php?user_id=" . $userId ?> method="post">
+                        <input type='hidden' name='messageForm' value='messageForm'>
+                        <dl>
+                            <dt><label for='message'>Message</label></dt>
+                            <dd><textarea name='message'></textarea></dd>
+                        </dl>
+                        <input type='submit'>
+                    </form>
+                </article>
+            <?php
+            }
+
+            $enCoursDeTraitement2 = isset($_POST['messageForm']);
+            if ($enCoursDeTraitement2) {
+                $author_id = $_SESSION['connected_id'];
+                $post_content = $_POST['message'];
+
+                $mysqli = new mysqli("localhost", "root", "", "socialnetwork");
+
+                $author_id = $mysqli->real_escape_string($author_id);
+                $post_content = $mysqli->real_escape_string($post_content);
+
+                $lInstructionSql2 = "INSERT INTO posts "
+                    . "(id, user_id, content, created, parent_id) "
+                    . "VALUES (NULL, "
+                    . $author_id . ", "
+                    . "'" . $post_content . "', "
+                    . "NOW(), "
+                    . "NULL);";
+
+                $ok = $mysqli->query($lInstructionSql2);
+                if (!$ok) {
+                    echo "Impossible d'ajouter le message: " . $mysqli->error;
+                } else {
+                    echo "Message posté par vous-même";
+                }
+            }
+            ?>
+            <!--  /**
+            * Etape 3: récupérer tous les messages de l'utilisatrice
+            */ -->
+            <?php
             $laQuestionEnSql = "
-                    SELECT posts.content,
-                    posts.created,
-                    posts.id AS post_id,
-                    users.alias as author_name,
-                    users.id as author_id,
-                    COUNT(DISTINCT likes.id) as like_number,
-                    GROUP_CONCAT(DISTINCT tags.label) AS taglist,
-                    GROUP_CONCAT(DISTINCT tags.id ORDER BY tags.label) AS tagid_list
-                    FROM posts
-                    JOIN users ON  users.id=posts.user_id
-                    LEFT JOIN posts_tags ON posts.id = posts_tags.post_id  
-                    LEFT JOIN tags       ON posts_tags.tag_id  = tags.id 
-                    LEFT JOIN likes      ON likes.post_id  = posts.id 
-                    WHERE posts.user_id='$userId' 
-                    GROUP BY posts.id
-                    ORDER BY posts.created DESC  
-                    ";
+            SELECT posts.content,
+            posts.created,
+            posts.id AS post_id,
+            users.alias as author_name,
+            users.id as author_id,
+            COUNT(DISTINCT likes.id) as like_number,
+            GROUP_CONCAT(DISTINCT tags.label) AS taglist,
+            GROUP_CONCAT(DISTINCT tags.id ORDER BY tags.label) AS tagid_list
+            FROM posts
+            JOIN users ON users.id=posts.user_id
+            LEFT JOIN posts_tags ON posts.id = posts_tags.post_id
+            LEFT JOIN tags ON posts_tags.tag_id = tags.id
+            LEFT JOIN likes ON likes.post_id = posts.id
+            WHERE posts.user_id='$userId'
+            GROUP BY posts.id
+            ORDER BY posts.created DESC
+            ";
             $lesInformations = $mysqli->query($laQuestionEnSql);
             if (!$lesInformations) {
                 echo ("Échec de la requete : " . $mysqli->error);
