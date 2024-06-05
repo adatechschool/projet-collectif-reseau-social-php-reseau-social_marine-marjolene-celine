@@ -80,6 +80,7 @@ function displayPost($post)
 
 
     if ($likeEnCours) {
+        check_auth();
         // Etape 2: récupérer ce qu'il y a dans le formulaire
         //echo "<pre>" . print_r($_POST, 1) . "</pre>";
         //echo "<pre> user_id = " . $_SESSION['connected_id'] . "</pre>";
