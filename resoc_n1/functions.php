@@ -5,7 +5,7 @@ function check_auth()
 {
     $is_connected = isset($_SESSION['connected_id']);
     if (!$is_connected) {
-        header("Location: /resoc_n2/login.php");
+        header("Location: ../resoc_n2/login.php");
     }
 }
 
@@ -156,16 +156,18 @@ function displayPost($post)
             </small>
 
             <?php
-            $tags_array = explode(",", $post['taglist']);
-            $tagids_array = explode(",", $post['tagid_list']);
-            $post_tags = array_combine($tags_array, $tagids_array);
-            //print_r($post_tags);
-            foreach ($post_tags as $tag => $tagid) {
+            if ($post['taglist'] != NULL) {
+                $tags_array = explode(",", $post['taglist']);
+                $tagids_array = explode(",", $post['tagid_list']);
+                $post_tags = array_combine($tags_array, $tagids_array);
+                //print_r($post_tags);
+                foreach ($post_tags as $tag => $tagid) {
             ?>
-                <a href=<?php echo "../resoc_n1/tags.php?tag_id=" . $tagid ?>><?php echo "#" . $tag . "," ?>
-                </a>
+                    <a href=<?php echo "../resoc_n1/tags.php?tag_id=" . $tagid ?>><?php echo "#" . $tag . "," ?>
+                    </a>
 
             <?php
+                }
             }
             ?>
         </footer>
