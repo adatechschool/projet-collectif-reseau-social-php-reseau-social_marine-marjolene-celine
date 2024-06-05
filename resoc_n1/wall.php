@@ -26,8 +26,12 @@ include "./functions.php";
          * ... mais en résumé c'est une manière de passer des informations à la page en ajoutant des choses dans l'url
          */
         $userId = intval($_GET['user_id']);
-        ?>
-        <?php
+
+        //si pas d'user id et l'utilisateur n'est pas connecté, il est renvoyé sur la page login
+        if (!$userId) {
+            check_auth();
+        }
+
         /**
          * Etape 2: se connecter à la base de donnée
          */
@@ -42,6 +46,7 @@ include "./functions.php";
             $laQuestionEnSql = "SELECT * FROM users WHERE id= '$userId' ";
             $lesInformations = $mysqli->query($laQuestionEnSql);
             $user = $lesInformations->fetch_assoc();
+
             //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
             ?>
             <img src="user.jpg" alt="Portrait de l'utilisatrice" />
@@ -53,6 +58,7 @@ include "./functions.php";
                         (n° <?php echo $userId ?>)
                     <?php
                     }
+
                     if (isset($_SESSION['connected_id']) && $_SESSION['connected_id'] != $userId) {
                     ?>
                         <!-- Création du bouton gestion abonnement -->
